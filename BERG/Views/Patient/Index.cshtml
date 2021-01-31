@@ -1,0 +1,35 @@
+﻿@model BERG.ViewModels.PatientViewModel
+
+@{
+    ViewData["Title"] = "Pacijenti";
+}
+
+<h2 style="margin-bottom:30px;">Prikaz pacijenata</h2>
+
+<a asp-action="AddPatient" asp-controller="Patient" class="btn btn-primary" style="margin-bottom:15px">Dodaj pacijenta</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Ime i prezime</th>
+            <th scope="col">Spol</th>
+            <th scope="col">Datum rođenja</th>
+            <th scope="col">Adresa stanovanja</th>
+            <th scope="col">Akcija</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.Patients)
+        {
+          
+        <tr>
+            <td>@i.Firstname @i.Lastname</td>
+            <td>@i.Gender.Name</td>
+            <td>@i.Birthdate.ToString("d")</td>
+            <td>@i.Address</td>
+            <td><a asp-action="Edit" asp-controller="Patient" asp-route-PatientID="@i.Id" 
+                   class="btn btn-sm btn-success d-none d-md-inline-block">Uredi</a></td>
+        </tr>
+        }
+    </tbody>
+</table>

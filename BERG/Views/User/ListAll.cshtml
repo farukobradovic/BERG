@@ -1,0 +1,44 @@
+﻿@model IEnumerable<BERG.Models.User>
+
+@{
+    ViewData["Title"] = "Prikaz svih korisnika";
+}
+
+<h2 style="margin-bottom:30px;">Prikaz korisnika</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Ime i prezime</th>
+            <th scope="col">Titula</th>
+            <th scope="col">Šifra</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+
+        <tr>
+            <td>@i.Firstname @i.Lastname</td>
+            <td>@i.Title.Name</td>
+            <td>@i.Code</td>
+            <td>
+                <form asp-action="Delete" asp-route-id="@i.Id" data-ajax="true" data-ajax-success="deleteItem(this)">
+                    <button type="submit" class="btn btn-sm btn-danger d-none d-md-inline-block"
+                            onclick="return confirm('Da li ste sigurni da želite obrisati korisnika?')">
+                        Ukloni
+                    </button>
+                </form>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function deleteItem(form) {
+        $(form).parents('tr').remove();
+    }
+</script>

@@ -1,0 +1,79 @@
+﻿
+@model BERG.ViewModels.AppointementViewModel
+
+@{
+    ViewData["Title"] = "Prikaz termina prijema pacijenata";
+}
+
+<h2 style="margin-bottom:30px;">Prikaz termina prijema pacijenata</h2>
+
+<a asp-action="AddAppointment" asp-controller="Appointment" class="btn btn-primary" style="margin-bottom:15px">Dodaj prijem</a>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <section>
+                <form id="date-picker" method="post">
+                    <hr />
+                    <div class="form-group">
+                        <label asp-for="@Model.From">Od</label>
+                        <input asp-for="@Model.From" class="form-control" type="date" />
+                        <span asp-validation-for="@Model.From" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.To">Do</label>
+                        <input asp-for="@Model.To" class="form-control" type="date" />
+                        <span asp-validation-for="@Model.To" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-sm btn-dark d-none d-md-inline-block">Pretraži</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+
+    </div>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Vrijeme prijema</th>
+            <th scope="col">Pacijent</th>
+            <th scope="col">Ljekar</th>
+            <th scope="col">Hitno</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.Appointments)
+        {
+
+            <tr>
+                <td>@i.Time</td>
+                <td>@i.Patient.Firstname @i.Patient.Lastname</td>
+                <td>@i.User.Firstname @i.User.Lastname - @i.User.Code</td>
+                <td> <i class="fas @(i.Urgently ? "fa-check" : "fa-times")"></i></td>
+                <td><a  class="btn btn-sm btn-success d-none d-md-inline-block" asp-action="Edit" asp-controller="Appointment" asp-route-AppointmentID="@i.Id">Uredi</a></td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@i.Id" data-ajax="true" data-ajax-success="deleteItem(this)">
+                        <button type="submit" class="btn btn-sm btn-danger d-none d-md-inline-block"
+                                onclick="return confirm('Da li ste sigurni da želite obrisati prijem?')">
+                            Ukloni
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    function deleteItem(form) {
+        $(form).parents('tr').remove();
+    }
+</script>

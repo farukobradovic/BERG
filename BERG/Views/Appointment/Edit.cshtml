@@ -1,0 +1,52 @@
+﻿@model BERG.ViewModels.AppointementViewModel
+
+@{
+    ViewData["Title"] = "Uredi prijem";
+}
+
+
+<div class="row">
+    <div class="col-md-4" style="margin:auto;">
+        <form method="post">
+            <h4>Uredi prijem.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input asp-for="AppointmentID" hidden />
+            <div class="form-group">
+                <label asp-for="@Model.Time">Vrijeme prijema</label>
+                <input asp-for="@Model.Time" class="form-control" />
+                <span asp-validation-for="@Model.Time" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="UserID" style="width:200px;">Ljekar: </label>
+                <select asp-items="@Model.Users" asp-for="UserID" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label for="PatientID" style="width:200px;">Pacijent: </label>
+                <select asp-items="@Model.Patients" asp-for="PatientID" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Urgent">Hitno</label>
+                <input asp-for="@Model.Urgent" type="checkbox" style="display:block" />
+                <span asp-validation-for="@Model.Urgent" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Potvrdi</button>
+            @if (!Model.GotRecord)
+            {
+                <a class="btn btn-dark" asp-action="AddRecord" asp-controller="MedicalRecord" asp-route-AppointmentID="@Model.AppointmentID">Kreiraj nalaz</a>
+
+            }
+            else
+            {
+                <button type="submit" class="btn btn-dark" disabled>Nalaz kreiran</button>
+            }
+        </form>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
